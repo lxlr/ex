@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01_vue1.0中路由使用</title>
+    <script src="vue1026.js"></script>
+    <script src="vue-router1.0.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <a href="#" v-link="{path:'/login/xiaomage/123456789'}">登录</a>
+    <a href="#" v-link="{path:'/register'}">注册</a>
+    <!--占位符 ,用来显示对应的组件内容-->
+    <router-view></router-view>
+</div>
+<script>
+    /*定义一个根的空组件*/
+    var App = Vue.extend({});
+
+    /*定义登录和注册组件*/
+    var login = Vue.extend({
+        template: '<h3>登录组件内容{{name}}--{{id}}</h3>',
+        data:function () {
+            return {
+                name:'',
+                id:''
+            }
+        },
+        created:function () {
+            this.name=this.$route.params.mymane
+            this.id=this.$route.params.id
+        }
+    });
+    var register = Vue.extend({
+        template: '<h3>注册组件内容组件内容</h3>'
+    });
+
+    //实例化一个路由对象,去配置路由规则
+    var vueRouter=new VueRouter();
+    vueRouter.map({
+        'login/:mymane/:id':{
+            component:login
+        },
+        'register':{
+            component:register
+        }
+    });
+
+    /*开始路由*/
+    vueRouter.start(App,'#app');
+    //设置进入默认页面 ,比如注册页面
+    vueRouter.redirect({'/':'/register'})
+
+    new Vue({
+        el:'#app'
+    });
+</script>
+</body>
+</html>
