@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>04_vue2.0中路传参</title>
+    <script src="vue221.js"></script>
+    <script src="vue-router231.js"></script>
+</head>
+<body>
+<div id="app">
+    <router-link  to="/login/42424254214124214/xiaomage">登录</router-link>
+    <router-link  to="/register">注册</router-link>
+    <!--占位符 ,用来显示对应的组件内容-->
+    <router-view></router-view>
+</div>
+<script>
+    /*定义一个根的空组件*/
+    var App = Vue.extend({});
+
+    /*定义登录和注册组件*/
+    var login = Vue.extend({
+        template: '<h3>登录组件内容--{{name}}--{{id}}</h3>',
+        data:function () {
+            return{
+                name:'',
+                id:''
+            }
+        },
+        created:function () {
+            this.name=this.$route.params.namenamename;
+            this.id=this.$route.params.id;
+        }
+
+    });
+    var register = Vue.extend({
+        template: '<h3>注册组件内容组件内容</h3>',
+    });
+
+    //实例化一个路由对象,去配置路由规则
+    var vueRouter=new VueRouter({
+        routes:[
+            {path:'/',redirect:'/register'},
+            {path:'/login/:id/:namenamename',component:login},
+            {path:'/register',component:register}
+        ]
+    });
+
+
+
+
+
+    new Vue({
+        el:'#app',
+        router:vueRouter
+    });
+</script>
+</body>
+</html>
